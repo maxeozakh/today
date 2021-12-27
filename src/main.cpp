@@ -9,6 +9,7 @@ void split_rows_to_tasks_and_times(const std::string *rows,
 void format_data_for_column(const std::string *raw_data,
 							std::string *out_formatted_data,
 							const int &column_length);
+const char *print_columns_as_rows(std::string *tasks, std::string *times);
 
 int main()
 {
@@ -24,7 +25,20 @@ int main()
 	format_data_for_column(tasks, formatted_tasks, 30);
 	format_data_for_column(times, formatted_times, 5);
 
+	print_columns_as_rows(formatted_tasks, formatted_times);
+
 	std::cout << "🐕" << '\n';
+}
+
+const char *print_columns_as_rows(std::string *tasks, std::string *times)
+{
+	while (*tasks != "")
+	{
+		std::cout << *tasks << *times << '\n';
+
+		tasks++;
+		times++;
+	}
 }
 
 void format_data_for_column(const std::string *raw_data, std::string *out_formatted_data, const int &column_length)
@@ -41,17 +55,14 @@ void format_data_for_column(const std::string *raw_data, std::string *out_format
 			additional_spaces_count = 0;
 		}
 
-		formatted_row = row.append(additional_spaces_count, ' ');
-		std::cout << formatted_row << '\n';
+		*out_formatted_data = row.append(additional_spaces_count, ' ');
+		out_formatted_data++;
 		raw_data++;
 	}
 }
 
 /*
-const char *make_row(const char *task_text,
-					 const char *task_time,
-					 const char *routine_text,
-					 const char *routine_time);
+
 void print_rows(const char *tasks_text,
 				const char *tasks_time,
 				const char *routinies_text,
