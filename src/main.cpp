@@ -4,12 +4,28 @@
 
 void get_rows_from_txt(const char *path, std::string *out_rows);
 void split_rows_to_tasks_and_times(const std::string *rows,
-								   std::string *out_tasks,
-								   std::string *out_times);
+																	 std::string *out_tasks,
+																	 std::string *out_times);
 void format_data_for_column(const std::string *raw_data,
-							std::string *out_formatted_data,
-							const int &column_length);
+														std::string *out_formatted_data,
+														const int &column_length);
 const char *print_columns_as_rows(std::string *tasks, std::string *times);
+
+enum colors
+{
+	grey,
+	green
+};
+std::string color_codes[] = {"97", "92"};
+void color_print(std::string &value, colors color);
+
+/*
+
+  next steps:
+  - mark as done
+  - delete rows in txt file from script
+	- routines
+*/
 
 int main()
 {
@@ -27,7 +43,13 @@ int main()
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
 
+
 	std::cout << "🐕" << '\n';
+}
+
+void color_print(std::string &value, colors color)
+{
+	std::cout << "\033[" << color_codes[color] << "m" << value << "\033[0m\n";
 }
 
 const char *print_columns_as_rows(std::string *tasks, std::string *times)
@@ -60,16 +82,6 @@ void format_data_for_column(const std::string *raw_data, std::string *out_format
 		raw_data++;
 	}
 }
-
-/*
-
-void print_rows(const char *tasks_text,
-				const char *tasks_time,
-				const char *routinies_text,
-				const char *routinies_time);
-
-task-text --- t-time --- r-text --- r-time 
-*/
 
 void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times)
 {
