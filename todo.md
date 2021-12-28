@@ -1,0 +1,3 @@
+- set flags in file directly
+- handle new flags: done, deleted etc
+- routines

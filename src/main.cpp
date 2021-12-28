@@ -19,14 +19,6 @@ enum colors
 std::string color_codes[] = {"97", "92"};
 void color_print(std::string &value, colors color);
 
-/*
-
-  next steps:
-  - mark as done
-  - delete rows in txt file from script
-	- routines
-*/
-
 int main()
 {
 	const int max_rows = 100;
@@ -42,7 +34,6 @@ int main()
 	format_data_for_column(times, formatted_times, 5);
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
-
 
 	std::cout << "🐕" << '\n';
 }
