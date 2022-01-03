@@ -3,13 +3,9 @@
 #include <string>
 
 void get_rows_from_txt(const char *path, std::string *out_rows);
-void split_rows_to_tasks_and_times(const std::string *rows,
-																	 std::string *out_tasks,
-																	 std::string *out_times);
-void format_data_for_column(const std::string *raw_data,
-														std::string *out_formatted_data,
-														const int &column_length);
-const char *print_columns_as_rows(std::string *tasks, std::string *times);
+void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times);
+void format_data_for_column(const std::string *raw_data, std::string *out_formatted_data, const int &column_length);
+void *print_columns_as_rows(std::string *tasks, std::string *times);
 
 enum colors
 {
@@ -36,6 +32,7 @@ int main()
 	print_columns_as_rows(formatted_tasks, formatted_times);
 
 	std::cout << "🐕" << '\n';
+	return 0;
 }
 
 void color_print(std::string &value, colors color)
@@ -43,7 +40,7 @@ void color_print(std::string &value, colors color)
 	std::cout << "\033[" << color_codes[color] << "m" << value << "\033[0m\n";
 }
 
-const char *print_columns_as_rows(std::string *tasks, std::string *times)
+void *print_columns_as_rows(std::string *tasks, std::string *times)
 {
 	while (*tasks != "")
 	{
