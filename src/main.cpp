@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 
 void get_rows_from_txt(const char *path, std::string *out_rows);
 void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times);
@@ -14,13 +15,26 @@ enum colors
 };
 std::string color_codes[] = {"97", "92"};
 void color_print(std::string &value, colors color);
-void add_flag_to_the_row(const int &row_number, 
+
+void add_flag_to_the_row(const int &line_number, 
 			const char *file_path,
 			const char &flag)
 {
-	std::cout << "Hello there it's a row addeder 🤪\n";
-	std::cout << row_number << '\n';
-	std::cout << flag << '\n';
+	std::fstream file(file_path);
+
+	if (!file.is_open())
+	{
+		std::cout << "smthg happens when trying to open file: " << file_path << '\n';
+		return;
+	}
+	unsigned int current_line = 0;
+	while (current_line < line_number)
+	{
+		file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		current_line++;
+	}
+	file.seekp(file.tellg());
+	file << flag;
 };
 
 int main()
@@ -30,6 +44,11 @@ int main()
 	const char *TEST_FP = "../assets/test.txt";
 
 	std::string rows[MAX_ROWS];
+	
+	// it's work but i have no idea how
+	// TODO figure out how file.ignore, file.seekp, file.tellg work 	
+	add_flag_to_the_row(2, TEST_FP, 'd');
+	
 	get_rows_from_txt(TEST_FP, rows);
 
 	std::string tasks[MAX_ROWS], times[MAX_ROWS];
