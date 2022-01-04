@@ -14,13 +14,22 @@ enum colors
 };
 std::string color_codes[] = {"97", "92"};
 void color_print(std::string &value, colors color);
+void add_flag_to_the_row(const int &row_number, 
+			const char *file_path,
+			const char &flag)
+{
+	std::cout << "Hello there it's a row addeder 🤪\n";
+	std::cout << row_number << '\n';
+	std::cout << flag << '\n';
+};
 
 int main()
 {
 	const int max_rows = 100;
-
+	const char *FILE_PATH = "../assets/tasks.txt";
+	const char *TEST_FP = "../assets/test.txt";
 	std::string rows[max_rows];
-	get_rows_from_txt("../assets/tasks.txt", rows);
+	get_rows_from_txt(TEST_FP, rows);
 
 	std::string tasks[max_rows], times[max_rows];
 	split_rows_to_tasks_and_times(rows, tasks, times);
@@ -30,8 +39,8 @@ int main()
 	format_data_for_column(times, formatted_times, 5);
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
-
 	std::cout << "🐕" << '\n';
+
 	return 0;
 }
 
@@ -79,9 +88,16 @@ void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tas
 	{
 		row = *rows;
 		int divider_position = row.find(divider);
+		if (divider_position == -1)
+		{
+			task = row;
+			time = "";	
+		}
+		else {
+			task = row.substr(0, divider_position - 1);
+			time = row.substr(divider_position + divider.length() + 1);
+		}
 
-		task = row.substr(0, divider_position - 1);
-		time = row.substr(divider_position + divider.length() + 1);
 
 		*out_tasks = task;
 		*out_times = time;
