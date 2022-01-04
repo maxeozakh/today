@@ -25,21 +25,22 @@ void add_flag_to_the_row(const int &row_number,
 
 int main()
 {
-	const int max_rows = 100;
+	const int MAX_ROWS = 100;
 	const char *FILE_PATH = "../assets/tasks.txt";
 	const char *TEST_FP = "../assets/test.txt";
-	std::string rows[max_rows];
+
+	std::string rows[MAX_ROWS];
 	get_rows_from_txt(TEST_FP, rows);
 
-	std::string tasks[max_rows], times[max_rows];
+	std::string tasks[MAX_ROWS], times[MAX_ROWS];
 	split_rows_to_tasks_and_times(rows, tasks, times);
 
-	std::string formatted_tasks[max_rows], formatted_times[max_rows];
+	std::string formatted_tasks[MAX_ROWS], formatted_times[MAX_ROWS];
 	format_data_for_column(tasks, formatted_tasks, 30);
 	format_data_for_column(times, formatted_times, 5);
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
-	std::cout << "🐕" << '\n';
+	std::cout << '\n' <<  "🐕" << '\n';
 
 	return 0;
 }
@@ -116,14 +117,13 @@ void get_rows_from_txt(const char *path, std::string *out_rows)
 	if (!file.is_open())
 	{
 		std::cout << "oops something really bad happens when trying to read file in path - " << path << '\n';
+		return;
 	}
-	else
+
+	while (file.good())
 	{
-		while (file.good())
-		{
-			std::getline(file, line);
-			*out_rows = line;
-			out_rows++;
-		}
+		std::getline(file, line);
+		*out_rows = line;
+		out_rows++;
 	}
 }
