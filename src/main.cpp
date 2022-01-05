@@ -2,24 +2,40 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include "main.hpp"
 
-void get_rows_from_txt(const char *path, std::string *out_rows);
-void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times);
-void format_data_for_column(const std::string *raw_data, std::string *out_formatted_data, const int &column_length);
-void *print_columns_as_rows(std::string *tasks, std::string *times);
-
-enum colors
-{
-	grey,
-	green
-};
 std::string color_codes[] = {"97", "92"};
-void color_print(std::string &value, colors color);
+
+std::string get_line_by_line_number(const char *file_path, const int &line_number)
+{
+	std::fstream file(file_path);
+
+        if (!file.is_open())
+        {   
+                std::cout << "smthg happens when trying to open file: " << file_path << '\n';
+                return "";
+        }   
+        unsigned int line_counter = 0;
+        std::string line;
+        while (line_counter < line_number)
+        {   
+                file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                line_counter++;
+        }   
+        file.seekp(file.tellg());
+	std::getline(file, line);
+	
+        return line;
+}
 
 void add_flag_to_the_row(const int &line_number, 
 			const char *file_path,
-			const char &flag)
+			const char *flag)
 {
+	std::string line;
+	line = get_line_by_line_number(file_path, line_number);
+	std::cout << "that line: " << line << '\n';
+
 	std::fstream file(file_path);
 
 	if (!file.is_open())
@@ -27,14 +43,17 @@ void add_flag_to_the_row(const int &line_number,
 		std::cout << "smthg happens when trying to open file: " << file_path << '\n';
 		return;
 	}
-	unsigned int current_line = 0;
-	while (current_line < line_number)
+	unsigned int line_counter = 0;
+	while (line_counter < line_number)
 	{
 		file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		current_line++;
+		line_counter++;
 	}
+	std::cout << file << '\n';
 	file.seekp(file.tellg());
-	file << flag;
+	std::cout << file << '\n';
+	line = flag + line + '\n';
+	file << line;	
 };
 
 int main()
@@ -45,9 +64,7 @@ int main()
 
 	std::string rows[MAX_ROWS];
 	
-	// it's work but i have no idea how
-	// TODO figure out how file.ignore, file.seekp, file.tellg work 	
-	add_flag_to_the_row(2, TEST_FP, 'd');
+	add_flag_to_the_row(2, TEST_FP, "-d ");
 	
 	get_rows_from_txt(TEST_FP, rows);
 
@@ -91,6 +108,7 @@ void format_data_for_column(const std::string *raw_data, std::string *out_format
 		if (additional_spaces_count < 0)
 		{
 			std::cout << "oooooops, raw row is too long, dont wanna format that \n";
+			std::cout << "row: " << row << '\n';
 			additional_spaces_count = 0;
 		}
 
