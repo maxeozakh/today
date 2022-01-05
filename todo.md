@@ -1,3 +1,5 @@
+- learn how work with files by bits 🤤
 - set flags in file directly
 - handle new flags: done, deleted etc
 - routines
+- figure out how file.ignore, file.seekp, file.tellg work 
