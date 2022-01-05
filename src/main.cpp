@@ -6,6 +6,37 @@
 
 std::string color_codes[] = {"97", "92"};
 
+void insert_string_to_the_line(const char *file_path, std::string inserted_string, const int &line_number)
+{
+
+	std::fstream file(file_path);
+        if (!file.is_open())
+        {   
+                std::cout << "smthg happens when trying to open file: " << file_path << '\n';
+                return; 
+        }   
+
+        std::string line;
+	std::string virtual_strings[100];
+	int lines_in_file = 0;
+        while (std::getline(file, line))
+        {   
+		virtual_strings[lines_in_file] = line + '\n';
+		lines_in_file++;
+        } 
+	
+	file.clear();
+	file.seekg(0);
+	
+
+	virtual_strings[line_number] = inserted_string + '\n';  
+	
+	for (int i = 0; i < lines_in_file; i++)
+	{
+		file << virtual_strings[i];
+	}
+}
+
 std::string get_line_by_line_number(const char *file_path, const int &line_number)
 {
 	std::fstream file(file_path);
@@ -28,33 +59,6 @@ std::string get_line_by_line_number(const char *file_path, const int &line_numbe
         return line;
 }
 
-void add_flag_to_the_row(const int &line_number, 
-			const char *file_path,
-			const char *flag)
-{
-	std::string line;
-	line = get_line_by_line_number(file_path, line_number);
-	std::cout << "that line: " << line << '\n';
-
-	std::fstream file(file_path);
-
-	if (!file.is_open())
-	{
-		std::cout << "smthg happens when trying to open file: " << file_path << '\n';
-		return;
-	}
-	unsigned int line_counter = 0;
-	while (line_counter < line_number)
-	{
-		file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		line_counter++;
-	}
-	std::cout << file << '\n';
-	file.seekp(file.tellg());
-	std::cout << file << '\n';
-	line = flag + line + '\n';
-	file << line;	
-};
 
 int main()
 {
@@ -63,8 +67,8 @@ int main()
 	const char *TEST_FP = "../assets/test.txt";
 
 	std::string rows[MAX_ROWS];
-	
-	add_flag_to_the_row(2, TEST_FP, "-d ");
+		
+	insert_string_to_the_line(TEST_FP, "hello there", 2);
 	
 	get_rows_from_txt(TEST_FP, rows);
 
