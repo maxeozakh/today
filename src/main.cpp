@@ -6,7 +6,7 @@
 
 std::string color_codes[] = {"97", "92"};
 
-void insert_string_to_the_line(const char *file_path, std::string inserted_string, const int &line_number)
+void insert_string_to_the_line(const char *file_path, const int &line_number, std::string inserted_string)
 {
 
 	std::fstream file(file_path);
@@ -59,6 +59,12 @@ std::string get_line_by_line_number(const char *file_path, const int &line_numbe
         return line;
 }
 
+void add_flag_to_the_line(const char *file_path, const int &line_number, std::string &flag)
+{
+	std::string line = get_line_by_line_number(file_path, line_number);
+	line = flag + " " + line;
+	insert_string_to_the_line(file_path, line_number, line);	
+}
 
 int main()
 {
@@ -67,9 +73,8 @@ int main()
 	const char *TEST_FP = "../assets/test.txt";
 
 	std::string rows[MAX_ROWS];
-		
-	insert_string_to_the_line(TEST_FP, "hello there", 2);
-	
+	std::string flag200000 = "-d";
+	add_flag_to_the_line(TEST_FP, 0, flag200000);
 	get_rows_from_txt(TEST_FP, rows);
 
 	std::string tasks[MAX_ROWS], times[MAX_ROWS];
