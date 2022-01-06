@@ -4,18 +4,25 @@
 #include <limits>
 #include "main.hpp"
 
-std::string color_codes[] = {"97", "92"};
-
 int main()
 {
-	const int MAX_ROWS = 100;
 	const char *FILE_PATH = "../assets/tasks.txt";
 	const char *TEST_FP = "../assets/test.txt";
+	
+	render(TEST_FP);
 
+	// std::string flag200000 = "-d";
+	// add_flag_to_the_line(TEST_FP, 0, flag200000);
+	std::cout << '\n' <<  "🐕" << '\n';
+
+	return 0;
+}
+
+void render(const char *file_path)
+{
+	const int MAX_ROWS = 100;
 	std::string rows[MAX_ROWS];
-	std::string flag200000 = "-d";
-	add_flag_to_the_line(TEST_FP, 0, flag200000);
-	get_rows_from_txt(TEST_FP, rows);
+	get_rows_from_txt(file_path, rows);
 
 	std::string tasks[MAX_ROWS], times[MAX_ROWS];
 	split_rows_to_tasks_and_times(rows, tasks, times);
@@ -25,9 +32,6 @@ int main()
 	format_data_for_column(times, formatted_times, 5);
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
-	std::cout << '\n' <<  "🐕" << '\n';
-
-	return 0;
 }
 
 void insert_string_to_the_line(const char *file_path, const int &line_number, std::string inserted_string)
