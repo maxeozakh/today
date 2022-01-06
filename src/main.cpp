@@ -131,7 +131,7 @@ void color_print(std::string &value, colors color)
 	std::cout << "\033[" << color_codes[color] << "m" << value << "\033[0m\n";
 }
 
-void *print_columns_as_rows(std::string *tasks, std::string *times)
+void print_columns_as_rows(std::string *tasks, std::string *times)
 {
 	while (*tasks != "")
 	{
