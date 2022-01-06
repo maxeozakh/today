@@ -6,6 +6,30 @@
 
 std::string color_codes[] = {"97", "92"};
 
+int main()
+{
+	const int MAX_ROWS = 100;
+	const char *FILE_PATH = "../assets/tasks.txt";
+	const char *TEST_FP = "../assets/test.txt";
+
+	std::string rows[MAX_ROWS];
+	std::string flag200000 = "-d";
+	add_flag_to_the_line(TEST_FP, 0, flag200000);
+	get_rows_from_txt(TEST_FP, rows);
+
+	std::string tasks[MAX_ROWS], times[MAX_ROWS];
+	split_rows_to_tasks_and_times(rows, tasks, times);
+
+	std::string formatted_tasks[MAX_ROWS], formatted_times[MAX_ROWS];
+	format_data_for_column(tasks, formatted_tasks, 30);
+	format_data_for_column(times, formatted_times, 5);
+
+	print_columns_as_rows(formatted_tasks, formatted_times);
+	std::cout << '\n' <<  "🐕" << '\n';
+
+	return 0;
+}
+
 void insert_string_to_the_line(const char *file_path, const int &line_number, std::string inserted_string)
 {
 
@@ -65,31 +89,6 @@ void add_flag_to_the_line(const char *file_path, const int &line_number, std::st
 	line = flag + " " + line;
 	insert_string_to_the_line(file_path, line_number, line);	
 }
-
-int main()
-{
-	const int MAX_ROWS = 100;
-	const char *FILE_PATH = "../assets/tasks.txt";
-	const char *TEST_FP = "../assets/test.txt";
-
-	std::string rows[MAX_ROWS];
-	std::string flag200000 = "-d";
-	add_flag_to_the_line(TEST_FP, 0, flag200000);
-	get_rows_from_txt(TEST_FP, rows);
-
-	std::string tasks[MAX_ROWS], times[MAX_ROWS];
-	split_rows_to_tasks_and_times(rows, tasks, times);
-
-	std::string formatted_tasks[MAX_ROWS], formatted_times[MAX_ROWS];
-	format_data_for_column(tasks, formatted_tasks, 30);
-	format_data_for_column(times, formatted_times, 5);
-
-	print_columns_as_rows(formatted_tasks, formatted_times);
-	std::cout << '\n' <<  "🐕" << '\n';
-
-	return 0;
-}
-
 void color_print(std::string &value, colors color)
 {
 	std::cout << "\033[" << color_codes[color] << "m" << value << "\033[0m\n";
