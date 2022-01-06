@@ -6,7 +6,8 @@ enum colors
         grey,
         green
 };
-
+void clear_screen();
+void input_and_render_loop(const char *file_path);
 void render(const char *file_path);
 void get_rows_from_txt(const char *path, std::string *out_rows);
 void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times);

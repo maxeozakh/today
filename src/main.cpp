@@ -8,14 +8,48 @@ int main()
 {
 	const char *FILE_PATH = "../assets/tasks.txt";
 	const char *TEST_FP = "../assets/test.txt";
-	
-	render(TEST_FP);
+
+	input_and_render_loop(TEST_FP);
 
 	// std::string flag200000 = "-d";
 	// add_flag_to_the_line(TEST_FP, 0, flag200000);
-	std::cout << '\n' <<  "🐕" << '\n';
+	std::cout << '\n'
+			  << "🐕" << '\n';
 
 	return 0;
+}
+
+void input_and_render_loop(const char *file_path)
+{
+	std::string user_input, flag, exit_command = ":q";
+	int line_number;
+
+	render(file_path);
+	while (user_input != exit_command)
+	{
+		std::getline(std::cin, user_input);
+		if (user_input == exit_command)
+		{
+			return;
+		}
+
+		const int divider_position = user_input.find(' ');
+		flag = user_input.substr(0, divider_position);
+		line_number = std::stoi(user_input.substr(divider_position + 1));
+		clear_screen();
+		add_flag_to_the_line(file_path, line_number, flag);
+
+		render(file_path);
+	}
+}
+
+void clear_screen()
+{
+	int n;
+	for (n = 0; n < 10; n++)
+	{
+		printf("\n\n\n\n\n\n\n\n\n\n");
+	}
 }
 
 void render(const char *file_path)
@@ -38,27 +72,26 @@ void insert_string_to_the_line(const char *file_path, const int &line_number, st
 {
 
 	std::fstream file(file_path);
-        if (!file.is_open())
-        {   
-                std::cout << "smthg happens when trying to open file: " << file_path << '\n';
-                return; 
-        }   
+	if (!file.is_open())
+	{
+		std::cout << "smthg happens when trying to open file: " << file_path << '\n';
+		return;
+	}
 
-        std::string line;
+	std::string line;
 	std::string virtual_strings[100];
 	int lines_in_file = 0;
-        while (std::getline(file, line))
-        {   
+	while (std::getline(file, line))
+	{
 		virtual_strings[lines_in_file] = line + '\n';
 		lines_in_file++;
-        } 
-	
+	}
+
 	file.clear();
 	file.seekg(0);
-	
 
-	virtual_strings[line_number] = inserted_string + '\n';  
-	
+	virtual_strings[line_number] = inserted_string + '\n';
+
 	for (int i = 0; i < lines_in_file; i++)
 	{
 		file << virtual_strings[i];
@@ -69,29 +102,29 @@ std::string get_line_by_line_number(const char *file_path, const int &line_numbe
 {
 	std::fstream file(file_path);
 
-        if (!file.is_open())
-        {   
-                std::cout << "smthg happens when trying to open file: " << file_path << '\n';
-                return "";
-        }   
-        unsigned int line_counter = 0;
-        std::string line;
-        while (line_counter < line_number)
-        {   
-                file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                line_counter++;
-        }   
-        file.seekp(file.tellg());
+	if (!file.is_open())
+	{
+		std::cout << "smthg happens when trying to open file: " << file_path << '\n';
+		return "";
+	}
+	unsigned int line_counter = 0;
+	std::string line;
+	while (line_counter < line_number)
+	{
+		file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		line_counter++;
+	}
+	file.seekp(file.tellg());
 	std::getline(file, line);
-	
-        return line;
+
+	return line;
 }
 
 void add_flag_to_the_line(const char *file_path, const int &line_number, std::string &flag)
 {
 	std::string line = get_line_by_line_number(file_path, line_number);
 	line = flag + " " + line;
-	insert_string_to_the_line(file_path, line_number, line);	
+	insert_string_to_the_line(file_path, line_number, line);
 }
 void color_print(std::string &value, colors color)
 {
@@ -141,13 +174,13 @@ void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tas
 		if (divider_position == -1)
 		{
 			task = row;
-			time = "";	
+			time = "";
 		}
-		else {
+		else
+		{
 			task = row.substr(0, divider_position - 1);
 			time = row.substr(divider_position + divider.length() + 1);
 		}
-
 
 		*out_tasks = task;
 		*out_times = time;
