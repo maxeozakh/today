@@ -9,10 +9,8 @@ int main()
 	const char *FILE_PATH = "../assets/tasks.txt";
 	const char *TEST_FP = "../assets/test.txt";
 
-	input_and_render_loop(TEST_FP);
+	input_and_render_loop(FILE_PATH);
 
-	// std::string flag200000 = "-d";
-	// add_flag_to_the_line(TEST_FP, 0, flag200000);
 	std::cout << '\n'
 			  << "🐕" << '\n';
 
@@ -62,8 +60,8 @@ void render(const char *file_path)
 	split_rows_to_tasks_and_times(rows, tasks, times);
 
 	std::string formatted_tasks[MAX_ROWS], formatted_times[MAX_ROWS];
-	format_data_for_column(tasks, formatted_tasks, 30);
-	format_data_for_column(times, formatted_times, 5);
+	format_data_for_column(tasks, formatted_tasks, 50);
+	format_data_for_column(times, formatted_times, 15);
 
 	print_columns_as_rows(formatted_tasks, formatted_times);
 }
@@ -126,6 +124,7 @@ void add_flag_to_the_line(const char *file_path, const int &line_number, std::st
 	line = flag + " " + line;
 	insert_string_to_the_line(file_path, line_number, line);
 }
+
 void color_print(std::string &value, colors color)
 {
 	std::cout << "\033[" << color_codes[color] << "m" << value << "\033[0m\n";
@@ -135,7 +134,18 @@ void print_columns_as_rows(std::string *tasks, std::string *times)
 {
 	while (*tasks != "")
 	{
-		std::cout << *tasks << *times << '\n';
+		std::string current_task = *tasks;
+		if (current_task.substr(0, 1) == "-")
+		{
+			// text without flag
+			std::string task_without_flag = current_task.substr(3) + "   ";
+			std::string output_text = task_without_flag + *times;
+			color_print(output_text, green);
+		}
+		else
+		{
+			std::cout << *tasks << *times << '\n';
+		}
 
 		tasks++;
 		times++;
@@ -145,6 +155,7 @@ void print_columns_as_rows(std::string *tasks, std::string *times)
 void format_data_for_column(const std::string *raw_data, std::string *out_formatted_data, const int &column_length)
 {
 	std::string row, formatted_row;
+
 	while (*raw_data != "")
 	{
 		row = *raw_data;
@@ -165,7 +176,7 @@ void format_data_for_column(const std::string *raw_data, std::string *out_format
 
 void split_rows_to_tasks_and_times(const std::string *rows, std::string *out_tasks, std::string *out_times)
 {
-	std::string row, task, time, divider = "--t";
+	std::string row, task, time, divider = "-t";
 
 	while (*rows != "")
 	{

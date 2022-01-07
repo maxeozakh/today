@@ -1,11 +1,18 @@
 #pragma once
 std::string color_codes[] = {"97", "92"};
-
 enum colors
 {
         grey,
         green
 };
+
+std::string flag_codes[] = {"-c"};
+
+enum flags
+{
+        check,
+};
+
 void clear_screen();
 void input_and_render_loop(const char *file_path);
 void render(const char *file_path);
@@ -17,4 +24,3 @@ void color_print(std::string &value, colors color);
 void insert_string_to_the_line(const char *file_path, const int &line_number, std::string inserted_string);
 std::string get_line_by_line_number(const char *file_path, const int &line_number);
 void add_flag_to_the_line(const char *file_path, const int &line_number, std::string &flag);
-
