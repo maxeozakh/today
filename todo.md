@@ -1,3 +1,4 @@
+- rewrite with objects
 - handle new flags: done, deleted etc
 - routines
 - figure out how file.ignore, file.seekp, file.tellg work 
