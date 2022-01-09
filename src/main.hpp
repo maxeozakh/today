@@ -6,11 +6,12 @@ enum colors
         green
 };
 
-std::string flag_codes[] = {"-c"};
+std::string flag_codes[] = {"-c", "-f"};
 
 enum flags
 {
         check,
+        fail,
 };
 
 void clear_screen();

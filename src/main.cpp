@@ -138,9 +138,21 @@ void print_columns_as_rows(std::string *tasks, std::string *times)
 		if (current_task.substr(0, 1) == "-")
 		{
 			// text without flag
+			std::string flag_from_string = current_task.substr(0, 2);
+
+			// replace flag with spaces, for example "-d " -> "   "
 			std::string task_without_flag = current_task.substr(3) + "   ";
+			
 			std::string output_text = task_without_flag + *times;
-			color_print(output_text, green);
+
+			if (flag_from_string == flag_codes[check])
+			{
+				color_print(output_text, green);
+			}
+			else if (flag_from_string == flag_codes[fail])
+			{
+				color_print(output_text, grey);
+			}
 		}
 		else
 		{
