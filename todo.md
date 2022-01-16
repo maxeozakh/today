@@ -1,4 +1,5 @@
+- use json/xml data structure insted txt with strings 
 - rewrite with objects
-- handle new flags: done, deleted etc
-- routines
-- figure out how file.ignore, file.seekp, file.tellg work 
+- sort by time and done
+- show modes: all, current (-sa, sc)
+- autofail by time
