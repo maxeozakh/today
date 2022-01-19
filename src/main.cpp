@@ -4,29 +4,22 @@
 #include <limits>
 #include "main.hpp"
 
+#include "../include/rapidjson/filereadstream.h"
 #include "../include/rapidjson/document.h"
-#include "../include/rapidjson/writer.h"
-#include "../include/rapidjson/stringbuffer.h"
+#include <cstdio>
 
-void json_try()
+void read_json_file()
 {
-    const char *json = "{\":project\":\"rapidjson\",\"stars\":10}";
-    rapidjson::Document d;
-    d.Parse(json);
-
-    // 2. Modify it by DOM.
-    rapidjson::Value &s = d["stars"];
-    s.SetInt(s.GetInt() + 1);
-
-    // 3. Stringify the DOM
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    d.Accept(writer);
-
-    // Output {"project":"rapidjson","stars":11}
-    std::cout << buffer.GetString() << std::endl;
+    FILE *file_pointer = fopen("../assets/example.json", "r");
+    char read_buffer[65536];
+    rapidjson::FileReadStream input_stream(file_pointer,
+                                           read_buffer,
+                                           sizeof(read_buffer));
+    rapidjson::Document document;
+    document.ParseStream(input_stream);
+    std::cout << document["hello"].GetString() << '\n';
+    fclose(file_pointer);
 }
-
 struct Row
 {
     std::string i_description, i_time;
@@ -42,14 +35,13 @@ struct Row
 
 int main()
 {
-    json_try();
-
+    read_json_file();
 
     const char *FILE_PATH = "../assets/tasks.txt";
-    input_and_render_loop(FILE_PATH);
+    // input_and_render_loop(FILE_PATH);
 
-    std::cout << '\n'
-              << "🐕" << '\n';
+    std::cout << '\n';
+    std::cout << "🐕" << '\n';
 
     return 0;
 }
